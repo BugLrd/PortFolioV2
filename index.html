@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tauhidur Rahman - Android Developer Portfolio">
+    <title>Tauhidur Rahman - Developer Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@500;700&family=Muli:wght@400;400i;800;800i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --text: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Muli', sans-serif;
+            background: var(--bg-light);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            z-index: 1000;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-brand {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .sidebar-nav li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .page {
+            display: none !important;
+            padding: 5rem 4rem;
+            min-height: 100vh;
+            position: relative;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page.active {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Allow scrolling between pages */
+        .main-content {
+            margin-left: 280px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+
+        .main-content.no-scroll {
+            overflow-y: hidden;
+        }
+
+        .main-content.scroll-mode .page {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .main-content.scroll-mode .page.active {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .page-content {
+            width: 100%;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        /* Typography */
+        .page h2 {
+            font-family: 'Saira Extra Condensed', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .page h2 .highlight {
+            color: var(--primary);
+        }
+
+        .page h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .subheading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        /* About Page */
+        #about .page-title {
+            font-family: 'Saira Extra Condensed', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        #about .page-title .highlight {
+            color: var(--primary);
+        }
+
+        .about-contact-info {
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .about-contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Resume Items */
+        .resume-item {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .resume-item:last-child {
+            border-bottom: none;
+        }
+
+        .resume-date {
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Skills */
+        .skill-icons {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .skill-icons li {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--bg-light);
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            font-size: 2rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .skill-icons li:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .skill-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text);
+        }
+
+        .skill-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        #contact .page-content {
+            text-align: center;
+        }
+
+        .contact-form {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
+            font-family: 'Muli', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                transition: left 0.3s ease;
+                z-index: 1001;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page {
+                padding: 2rem 1.5rem;
+            }
+
+            .page h2 {
+                font-size: 2rem;
+            }
+
+            #about .page-title {
+                font-size: 2.5rem;
+            }
+
+            .hamburger {
+                display: block;
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                width: 50px;
+                height: 50px;
+                background: var(--primary);
+                border: none;
+                border-radius: 50%;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                z-index: 999;
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <img class="sidebar-image" src="image.jpg" alt="Tauhidur Rahman">
+        </div>
+        <ul class="sidebar-nav">
+            <li><a class="nav-link active" data-page="about">About</a></li>
+            <li><a class="nav-link" data-page="education">Education</a></li>
+            <li><a class="nav-link" data-page="projects">Projects</a></li>
+            <li><a class="nav-link" data-page="skills">Skills</a></li>
+            <li><a class="nav-link" data-page="awards">Awards</a></li>
+            <li><a class="nav-link" data-page="contact">Contact Me</a></li>
+            <li><a class="nav-link resume-download" onclick="window.open('https://drive.googe.com/file/d/1Si5OxFL-1LGPNNW-0eDWeMKlH7G6hKSC/view?usp=sharing', '_blank'); return false;">📄 Download Resume</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- About Page -->
+        <section class="page active" id="about">
+            <div class="page-content">
+                <h1 class="page-title">Tauhidur <span class="highlight">Rahman</span></h1>
+                <div class="about-contact-info">
+                    <p style="font-size: 1.2rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem;">Android Developer</p>
+                </div>
+                <p>Computer Science student passionate about Linux systems, developer tooling, and building practical software solutions that solve real problems.</p>
+                <div class="social-icons">
+                    <a href="https://github.com/BugLrd" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/tauhidur-rahman-17503b395" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:tauhidur.cs@proton.me" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Page -->
+        <section class="page" id="education">
+            <div class="page-content">
+                <h2>Education</h2>
+                
+                <div class="resume-item">
+                    <div style="display: flex; gap: 2rem; align-items: flex-start;">
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: white; border: 2px solid var(--primary); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                            <img src="logo.png" alt="AIUB Logo" style="width: 100%; height: 100%; object-fit: contain; padding: 0.5rem;">
+                        </div>
+                        <div style="flex: 1;">
+                            <h3>American International University-Bangladesh (AIUB)</h3>
+                            <p class="subheading">Bachelor of Science in Computer Science</p>
+                            <p>Currently pursuing degree with focus on data structures, algorithms, operating systems, and software engineering. Specializing in mobile application development and system design.</p>
+                            <div class="resume-date">In Progress</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;">Campus & University Life</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div style="border-radius: 0.5rem; overflow: hidden; background: var(--bg-light);">
+                            <img src="AIUB.jpg" alt="University Campus" style="width: 100%; height: 200px; object-fit: cover;">
+                            <p style="padding: 0.75rem; text-align: center; font-size: 0.9rem; color: var(--text-light);">University Campus</p>
+                        </div>
+                        <div style="border-radius: 0.5rem; overflow: hidden; background: var(--bg-light);">
+                            <img src="arduino.jpg" alt="Campus Life" style="width: 100%; height: 200px; object-fit: cover;">
+                            <p style="padding: 0.75rem; text-align: center; font-size: 0.9rem; color: var(--text-light);">Campus Life</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Page -->
+        <section class="page" id="projects">
+            <div class="page-content">
+                <h2 style="margin-bottom: 1.5rem;">Featured <span class="highlight">Projects</span></h2>
+                
+                <div class="resume-item" style="margin-bottom: 1.2rem; padding-bottom: 1.2rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-bottom: 0.25rem;">Disaster Donation Relief</h3>
+                            <p class="subheading" style="margin-bottom: 0.25rem;">C#, OOP, Data Management</p>
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">Manage disaster relief donations, track contributors, and organize resource distribution. Implements object-oriented programming with comprehensive data management for tracking donors and beneficiaries.</p>
+                            <a href="https://github.com/BugLrd/DisasterDonationReliefManagementSystem" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">GitHub →</a>
+                        </div>
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: var(--bg-light); border-radius: 0.5rem; overflow: hidden;">
+                            <img src="logo2.png" alt="Disaster Relief" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-item" style="margin-bottom: 1.2rem; padding-bottom: 1.2rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-bottom: 0.25rem;">NixOS Config</h3>
+                            <p class="subheading" style="margin-bottom: 0.25rem;">NixOS, Linux, Shell</p>
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">Declarative Linux system configuration using Nix flakes for reproducible and maintainable development environments. Includes system setup, package management, and development tool configuration.</p>
+                            <a href="https://github.com/shayon07/nixcfg" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">GitHub →</a>
+                        </div>
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: var(--bg-light); border-radius: 0.5rem; overflow: hidden;">
+                            <img src="logo3.png" alt="NixOS" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-item" style="margin-bottom: 1.2rem; padding-bottom: 1.2rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-bottom: 0.25rem;">Web Scraping</h3>
+                            <p class="subheading" style="margin-bottom: 0.25rem;">Python, BeautifulSoup, Selenium</p>
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">Python automation scripts for web scraping and data extraction. Extract and organize structured web data using BeautifulSoup for HTML parsing and Selenium for browser automation.</p>
+                            <a href="https://github.com/BugLrd" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">GitHub →</a>
+                        </div>
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: var(--bg-light); border-radius: 0.5rem; overflow: hidden;">
+                            <img src="logo3.jpg" alt="Web Scraping" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-item" style="margin-bottom: 1.2rem; padding-bottom: 1.2rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-bottom: 0.25rem;">Campus Connect</h3>
+                            <p class="subheading" style="margin-bottom: 0.25rem;">Kotlin, Firebase, MVVM, Jetpack</p>
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">University information and event notification application with Firebase authentication and real-time updates. Built with MVVM architecture, Jetpack ViewModel, LiveData, and Firestore for real-time event synchronization.</p>
+                            <a href="https://github.com/BugLrd/campus-connect" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">GitHub →</a>
+                        </div>
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: var(--bg-light); border-radius: 0.5rem; overflow: hidden;">
+                            <img src="cc.jpg" alt="Campus Connect" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-item" style="margin-bottom: 1.2rem; padding-bottom: 1.2rem;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-bottom: 0.25rem;">Expense Tracker</h3>
+                            <p class="subheading" style="margin-bottom: 0.25rem;">Kotlin, Room Database, Material Design</p>
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">Personal finance management app with local data persistence using Jetpack Room. Features include expense categorization, budget alerts, transaction history, and data export functionality with Material Design 3 UI.</p>
+                            <a href="https://github.com/BugLrd/expense-tracker" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">GitHub →</a>
+                        </div>
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: var(--bg-light); border-radius: 0.5rem; overflow: hidden;">
+                            <img src="set.png" alt="Expense Tracker" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-item" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-bottom: 0.25rem;">ToDoList App</h3>
+                            <p class="subheading" style="margin-bottom: 0.25rem;">Java, Swing, CRUD, GUI</p>
+                            <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">Desktop task manager application with secure user authentication system. Implements complete CRUD operations for task management with persistent local storage and intuitive graphical interface using Java Swing.</p>
+                            <a href="https://github.com/BugLrd/todolist-application" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">GitHub →</a>
+                        </div>
+                        <div style="flex-shrink: 0; width: 200px; height: 200px; background: var(--bg-light); border-radius: 0.5rem; overflow: hidden;">
+                            <img src="tdl.jpg" alt="ToDoList" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Page -->
+        <section class="page" id="skills">
+            <div class="page-content">
+                <h2>Skills &amp; <span class="highlight">Technologies</span></h2>
+                
+                <p class="subheading" style="margin-top: 0;">Programming Languages & Tools</p>
+                <ul class="skill-icons">
+                    <li title="Kotlin"><i class="fas fa-mobile-alt"></i></li>
+                    <li title="Java"><i class="fab fa-java"></i></li>
+                    <li title="Python"><i class="fab fa-python"></i></li>
+                    <li title="C#"><i class="fas fa-code"></i></li>
+                    <li title="JavaScript"><i class="fab fa-js-square"></i></li>
+                    <li title="Linux"><i class="fab fa-linux"></i></li>
+                </ul>
+
+                <h3 style="margin-top: 2rem;">Professional Competencies</h3>
+                <ul class="skill-list">
+                    <li><strong>Mobile Development:</strong> Android SDK, Kotlin, Java, MVVM Architecture, Jetpack Components</li>
+                    <li><strong>Backend & Databases:</strong> Firebase, Firestore, Room Database, SQL, RESTful APIs</li>
+                    <li><strong>Development Tools:</strong> Git/GitHub, Android Studio, Linux/NixOS, Docker, Gradle</li>
+                    <li><strong>Core Competencies:</strong> OOP Design Patterns, Data Structures, Algorithms, System Design</li>
+                    <li><strong>Software Practices:</strong> Clean Code, Unit Testing, Debugging, Performance Optimization</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Awards Page -->
+        <!-- Awards Section -->
+        <section class="page" id="awards">
+            <div class="page-content">
+                <h2>Awards &amp; <span class="highlight">Achievements</span></h2>
+                
+                <div class="resume-item" style="border-bottom: none;">
+                    <h3>🏆 Dean's Award</h3>
+                    <p>Recipient of Dean's Award for outstanding academic performance and contribution to the Computer Science program at AIUB.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section class="page" id="contact">
+            <div class="page-content" style="text-align: center;">
+                <h2 style="margin-bottom: 1rem;">Get In <span class="highlight">Touch</span></h2>
+                <p style="color: var(--text-light); margin-bottom: 2rem;">Send me a message and I'll get back to you soon</p>
+                <form class="contact-form" id="contact-form" style="max-width: 500px; margin: 0 auto;">
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <p id="form-status"></p>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link:not(.resume-download)');
+        const pages = document.querySelectorAll('.page');
+        const sidebar = document.querySelector('.sidebar');
+        const hamburger = document.getElementById('hamburger');
+        const mainContent = document.querySelector('.main-content');
+
+        // Enable scroll mode on load
+        document.addEventListener('DOMContentLoaded', () => {
+            mainContent.classList.add('scroll-mode');
+        });
+
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                // Scroll to page
+                targetPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function updateActiveNav(pageId) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                
+                // Update active nav link
+                updateActiveNav(pageId);
+                
+                // Show page
+                showPage(pageId);
+                
+                // Close sidebar on mobile
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll detection to update active nav
+        window.addEventListener('scroll', () => {
+            let current = '';
+            pages.forEach(page => {
+                const pageTop = page.getBoundingClientRect().top;
+                if (pageTop < window.innerHeight / 3) {
+                    current = page.getAttribute('id');
+                }
+            });
+
+            if (current) {
+                updateActiveNav(current);
+            }
+        });
+
+        // Mobile hamburger
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.sidebar') && !e.target.closest('.hamburger')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Contact form
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const message = document.getElementById('message').value;
+                const statusElement = document.getElementById('form-status');
+                
+                if (!message) {
+                    statusElement.textContent = 'Please write a message.';
+                    statusElement.style.color = '#dc2626';
+                    statusElement.style.display = 'block';
+                    return;
+                }
+                
+                const mailtoLink = `mailto:tauhidur.cs@proton.me?subject=Portfolio Message&body=${encodeURIComponent(message)}`;
+                
+                statusElement.textContent = '✓ Message sent! Opening email client...';
+                statusElement.style.color = '#16a34a';
+                statusElement.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = mailtoLink;
+                }, 500);
+                
+                setTimeout(() => {
+                    this.reset();
+                    statusElement.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
